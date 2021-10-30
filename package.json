@@ -1,0 +1,25 @@
+{
+  "name": "aspca-spots",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "watch": "nodemon index.js",
+    "start": "forever index.js -f -w"
+  },
+  "dependencies": {
+    "@slack/web-api": "^6.4.0",
+    "date-fns": "^2.23.0",
+    "desktop-idle": "^1.3.0",
+    "dotenv": "^10.0.0",
+    "forever": "^4.0.1",
+    "lodash": "^4.17.21",
+    "puppeteer": "^10.2.0",
+    "query-string": "^7.0.1",
+    "winston": "^3.3.3"
+  },
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "nodemon": "^2.0.12"
+  }
+}
