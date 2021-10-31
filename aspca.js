@@ -7,6 +7,14 @@ const ASPCA_BASE_URL = 'https://aspcasnc.civicore.com/RSS/index.php';
 const AUTH_PARAMS = { action: 'userLogin' };
 const CALENDAR_PARAMS = { section: 'eventCal', action: 'cal' };
 
+const IS_PRODUCTION = process.env.NODE_ENV === 'production';
+
+const puppeteerOptions = {
+  headless: IS_PRODUCTION || process.env.DISABLE_HEADLESS !== 'true',
+  devtools: !IS_PRODUCTION,
+  args: ['--no-sandbox'],
+};
+
 class ASPCA {
 
   constructor() {
@@ -15,7 +23,7 @@ class ASPCA {
   }
 
   async connect() {
-    this.browser = await puppeteer.launch({ headless: false, devtools: true });
+    this.browser = await puppeteer.launch(puppeteerOptions);
     this.connected = true;
 
     const [page] = await this.browser.pages();
@@ -92,7 +100,7 @@ class ASPCA {
         const dateElement = document.elementFromPoint(x, y)?.closest('.fc-day');
 
         if (!dateElement) {
-          throw new Error('ahusgdhksdfkjdfjhdhf')
+          throw new Error('Event missing date element');
         }
 
         return {
