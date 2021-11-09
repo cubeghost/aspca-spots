@@ -13,17 +13,12 @@ const { postEvents } = require('./slack');
     await scraper.navigateToCalendar();
 
     const logEvents = async () => {
+      // if past 6am and last day of month, go to next month
       let filteredEvents = await scraper.getEvents();
 
-      // logger.info({
-      //   month: currentMonth,
-      //   events: filteredEvents,
-      // });
-
-      // filteredEvents = await scraper.getEvents({nextMonth: true});
-      
-      logger.info({
+      logger.info('getEvents', {
         events: filteredEvents,
+        eventsLength: filteredEvents.length,
       });
       return await postEvents(filteredEvents);
     };
