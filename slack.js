@@ -1,8 +1,9 @@
 const { WebClient } = require('@slack/web-api');
 const _ = require('lodash');
 const { fromUnixTime, parseISO, format, add } = require('date-fns');
+const { utcToZonedTime } = require('date-fns-tz');
 
-const logger = require('./logger');
+// const logger = require('./logger');
 const Storage = require('./storage');
 
 const web = new WebClient(process.env.SLACK_BOT_USER_TOKEN, {
@@ -10,6 +11,8 @@ const web = new WebClient(process.env.SLACK_BOT_USER_TOKEN, {
 });
 
 const storage = new Storage('slack');
+
+const tz = 'America/New_York';
 
 /*
 
@@ -134,7 +137,7 @@ const createTimestampBlock = () => ({
   elements: [
     {
       type: 'plain_text',
-      text: format(new Date(), 'MMM d yyyy, h:mm aaa'),
+      text: format(utcToZonedTime(new Date(), tz), 'MMM d yyyy, h:mm aaa'),
     },
   ],
 });
@@ -201,6 +204,8 @@ const updateBlocks = (prevEvents, events) => {
     } else {
       blocks.push(...intersperse(eventBlocks, DIVIDER));
     }
+
+    // Reflect.deleteProperty(groupedEvents, dateString);
   });
 
   blocks.push(createTimestampBlock());
