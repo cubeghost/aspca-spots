@@ -134,7 +134,7 @@ class ASPCA {
     const maxCats = text.match(/max # of cats: (\d+)/im)?.[1];
     const maxDogs = text.match(/max # of dogs: (\d+)/im)?.[1];
 
-    const transportType = text.match(/((Self|Central|Private) Transport)/im)?.[1];
+    const transportType = text.match(/((Self|Central|Private)[\s-]Transport)/im)?.[1];
     const location = text.match(/(Glendale|Brooklyn CVC|Bronx CVC)/im)?.[1];
 
     return {

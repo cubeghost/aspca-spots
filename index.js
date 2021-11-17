@@ -42,6 +42,7 @@ const { postEvents } = require('./slack');
 
     // await browser.close();
   } catch (error) {
-    logger.error(error);
+    throw error;
+    logger.error({error});
   }
 })();

@@ -1,6 +1,6 @@
 const { WebClient } = require('@slack/web-api');
 const _ = require('lodash');
-const { fromUnixTime } = require('date-fns');
+const { fromUnixTime, parseISO, format, add } = require('date-fns');
 
 const logger = require('./logger');
 const Storage = require('./storage');
@@ -134,13 +134,13 @@ const createTimestampBlock = () => ({
   elements: [
     {
       type: 'plain_text',
-      text: (new Date()).toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short' }),
+      text: format(new Date(), 'MMM d yyyy, h:mm aaa'),
     },
   ],
 });
 
 const createDateBlock = (dateString) => {
-  const formattedDate = new Date(dateString).toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+  const formattedDate = format(parseISO(dateString), 'cccc, MMMM d');
 
   return {
     type: 'header',
@@ -235,8 +235,6 @@ const postEvents = async (events) => {
       blocks: blocks,
     });
 
-    console.log(response)
-
     await storage.set({
       lastMessageTimestamp: null,
       lastEvents: null,
@@ -261,8 +259,7 @@ const postEvents = async (events) => {
       });
     }
 
-    console.log(response.ts)
-    console.log(response.message)
+    console.log(JSON.stringify(response.message.blocks, null, 2))
 
     if (!response.ok) {
       // TODO
