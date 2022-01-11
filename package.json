@@ -8,6 +8,7 @@
     "start": "forever index.js -f -w"
   },
   "dependencies": {
+    "@sentry/node": "^6.16.1",
     "@slack/web-api": "^6.4.0",
     "date-fns": "^2.23.0",
     "date-fns-tz": "^1.1.6",

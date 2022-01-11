@@ -264,7 +264,7 @@ const postEvents = async (events) => {
       });
     }
 
-    console.log(JSON.stringify(response.message.blocks, null, 2))
+    // console.log(JSON.stringify(response.message.blocks, null, 2))
 
     if (!response.ok) {
       // TODO
