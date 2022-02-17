@@ -10,6 +10,18 @@ const logzioTransport = new LogzioWinstonTransport({
   host: process.env.LOGZIO_HOST,
 });
 
+const jsonFormat = winston.format.json();
+
+const formatMeta = (meta) => {
+  const splat = meta[Symbol.for('splat')];
+  if (splat && splat.length) {
+    const obj = splat.length === 1 ? splat[0] : splat;
+    return jsonFormat.transform(obj, { colorize: true })[Symbol.for('message')];
+  } else {
+    return '';
+  }
+};
+
 const developmentLogger = winston.createLogger({
   transports: [
     new winston.transports.Console()
@@ -18,8 +30,8 @@ const developmentLogger = winston.createLogger({
     winston.format.colorize({ all: true }),
     winston.format.timestamp(),
     winston.format.printf(({ timestamp, level, message, ...meta }) => {
-      const formattedMessage = typeof message === 'string' ? message : jsonFormat.transform(message, { colorize: true });
-      return `${timestamp}:${level}\t${formattedMessage}`
+      const extra = formatMeta(meta);
+      return `${timestamp}:${level}\t${message}\t${extra}`;
     }),
   ),
 });
@@ -29,7 +41,7 @@ const productionLogger = winston.createLogger({
     new winston.transports.Console(),
     logzioTransport,
   ],
-  format: winston.format.json(),
+  format: jsonFormat,
 });
 
 module.exports = IS_PRODUCTION ? productionLogger : developmentLogger;
