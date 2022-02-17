@@ -13,6 +13,10 @@ const puppeteerOptions = {
   headless: IS_PRODUCTION || process.env.DISABLE_HEADLESS !== 'true',
   devtools: !IS_PRODUCTION,
   args: ['--no-sandbox'],
+  defaultViewport: {
+    width: 1920,
+    height: 1080
+  },
 };
 
 class ASPCA {
