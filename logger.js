@@ -2,13 +2,7 @@ const winston = require('winston');
 const LogzioWinstonTransport = require('winston-logzio');
 
 const IS_PRODUCTION = process.env.NODE_ENV === 'production';
-
-const logzioTransport = new LogzioWinstonTransport({
-  level: 'info',
-  name: 'aspca-spots',
-  token: process.env.LOGZIO_TOKEN,
-  host: process.env.LOGZIO_HOST,
-});
+const USE_LOGZ = !!process.env.LOGZIO_TOKEN;
 
 const jsonFormat = winston.format.json();
 
@@ -36,11 +30,21 @@ const developmentLogger = winston.createLogger({
   ),
 });
 
+const productionTransports = [
+  new winston.transports.Console(),
+];
+
+if (USE_LOGZ) {
+  productionTransports.push(new LogzioWinstonTransport({
+    level: 'info',
+    name: 'aspca-spots',
+    token: process.env.LOGZIO_TOKEN,
+    host: process.env.LOGZIO_HOST,
+  }));
+}
+
 const productionLogger = winston.createLogger({
-  transports: [
-    new winston.transports.Console(),
-    logzioTransport,
-  ],
+  transports: productionTransports,
   format: jsonFormat,
 });
 
