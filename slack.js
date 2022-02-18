@@ -3,7 +3,7 @@ const _ = require('lodash');
 const { fromUnixTime, parseISO, format, add } = require('date-fns');
 const { utcToZonedTime } = require('date-fns-tz');
 
-// const logger = require('./logger');
+const logger = require('./logger');
 const Storage = require('./storage');
 
 const web = new WebClient(process.env.SLACK_BOT_USER_TOKEN, {
@@ -268,7 +268,9 @@ const postEvents = async (events) => {
 
     if (!response.ok) {
       // TODO
+      logger.error(response);
       await storage.set({});
+      return;
     }
 
     await storage.set({

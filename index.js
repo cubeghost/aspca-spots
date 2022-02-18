@@ -26,7 +26,6 @@ const { postEvents } = require('./slack');
 
     await logEvents();
 
-    let calls = 0;
     setInterval(async () => {
       await scraper.page.reload();
 
@@ -40,8 +39,6 @@ const { postEvents } = require('./slack');
       }
 
       await logEvents();
-      calls++;
-      logger.info(`setInterval iteration: ${calls}`)
     }, 0.5 * 60 * 1000);
   } catch (error) {
     Sentry.captureException(error);

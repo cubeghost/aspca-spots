@@ -8,12 +8,16 @@ class Storage {
   async get() {
     try {
       const json = await fs.readFile(this.filename, { encoding: 'utf8' });
-      return JSON.parse(json);
+      if (json.length) {
+        return JSON.parse(json);
+      } else {
+        return {};
+      }
     } catch (e) {
       if (e.code === 'ENOENT') {
         await fs.writeFile(this.filename, '', {encoding: 'utf8'});
       } else {
-        console.error();
+        console.error(e);
       }
       return {};
     }
