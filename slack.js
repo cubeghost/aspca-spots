@@ -268,6 +268,7 @@ const postEvents = async (events) => {
 
     if (!response.ok) {
       // TODO
+      await storage.set({});
     }
 
     await storage.set({
