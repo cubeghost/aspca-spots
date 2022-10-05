@@ -42,6 +42,7 @@ if (PAPERTRAIL_HOST && PAPERTRAIL_PORT) {
     port: PAPERTRAIL_PORT,
     protocol: 'tls4',
     localhost: os.hostname(),
+    app_name: 'aspca-spots',
     eol: '\n',
   }));
 }
