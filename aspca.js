@@ -8,6 +8,7 @@ const AUTH_PARAMS = { action: 'userLogin' };
 const CALENDAR_PARAMS = { section: 'eventCal', action: 'cal' };
 
 const IS_PRODUCTION = process.env.NODE_ENV === 'production';
+const ONE_MINUTE = 60 * 1000;
 
 const puppeteerOptions = {
   headless: IS_PRODUCTION || process.env.DISABLE_HEADLESS !== 'true',
@@ -53,7 +54,7 @@ class ASPCA {
     await inputs[1].type(process.env.ASPCA_AUTH_PASSWORD);
 
     await submit.click();
-    await this.page.waitForNavigation({ 'waitUntil': 'networkidle2' });
+    await this.page.waitForNavigation({ waitUntil: 'networkidle2', timeout: ONE_MINUTE });
 
     logger.info('Signed in');
     this.loggedIn = true;
@@ -76,7 +77,7 @@ class ASPCA {
 
     const scheduleNav = (await this.page.$x("//a[contains(text(), 'Schedule Services')]"))[0];
     await scheduleNav.click();
-    await this.page.waitForNavigation({ 'waitUntil': 'networkidle2' });
+    await this.page.waitForNavigation({ waitUntil: 'networkidle2', timeout: ONE_MINUTE });
   }
 
   async getEvents({ nextMonth = false } = {}) {
