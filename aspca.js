@@ -86,11 +86,10 @@ class ASPCA {
       await this.page.waitForSelector('#loading', { hidden: true });
     }
 
-    let eventsContainer = await this.page.$('.fc-event-container');
-    if (!eventsContainer) {
-      await this.page.waitForTimeout(1000); 
-      eventsContainer = await this.page.$('.fc-event-container');
-    }
+    await this.page.waitForSelector('.fc-event-container', {
+      timeout: 15 * 1000
+    }); 
+    const eventsContainer = await this.page.$('.fc-event-container');
 
     const events = await eventsContainer.evaluate((container) => {
       const events = container.querySelectorAll('.fc-event');

@@ -14,7 +14,8 @@ const { postEvents } = require('./slack');
     await scraper.navigateToCalendar();
 
     const logEvents = async () => {
-      // if past 6am and last day of month, go to next month
+      // TODO if past 6am and last day of month, go to next month
+      // TODO maybe always check next month
       let filteredEvents = await scraper.getEvents();
 
       logger.info('getEvents', {
@@ -41,8 +42,7 @@ const { postEvents } = require('./slack');
       await logEvents();
     }, 0.5 * 60 * 1000);
   } catch (error) {
-    console.log('caught top level error');
-    console.error(error);
+    logger.error("top level error", {error})
     Sentry.captureException(error);
   }
 })();

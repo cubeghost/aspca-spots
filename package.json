@@ -17,8 +17,7 @@
     "puppeteer": "^10.2.0",
     "query-string": "^7.0.1",
     "set-interval-async": "^2.0.3",
-    "winston": "^3.3.3",
-    "winston-syslog": "^2.6.0"
+    "winston": "^3.3.3"
   },
   "devDependencies": {
     "eslint": "^8.2.0",
@@ -27,6 +26,6 @@
     "nodemon": "^2.0.12"
   },
   "engines": {
-    "node": "16.x"
+    "node": "20.x"
   }
 }
