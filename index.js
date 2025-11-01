@@ -42,7 +42,7 @@ const { postEvents } = require('./slack');
       await logEvents();
     }, 0.5 * 60 * 1000);
   } catch (error) {
-    logger.error("top level error", {error})
+    logger.error("Uncaught exception", {error})
     Sentry.captureException(error);
   }
 })();

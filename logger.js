@@ -1,6 +1,6 @@
 const os = require('os');
 const winston = require('winston');
-require('winston-syslog');
+require('winston-syslog').Syslog;
 
 const IS_PRODUCTION = process.env.NODE_ENV === 'production';
 const PAPERTRAIL_HOST = process.env.PAPERTRAIL_HOST;
@@ -30,6 +30,7 @@ const developmentLogger = winston.createLogger({
       return `${timestamp}:${level}\t${message}\t${extra}`;
     }),
   ),
+  exitOnError: false
 });
 
 const productionTransports = [
@@ -50,6 +51,7 @@ if (PAPERTRAIL_HOST && PAPERTRAIL_PORT) {
 const productionLogger = winston.createLogger({
   transports: productionTransports,
   format: jsonFormat,
+  exitOnError: false
 });
 
 module.exports = IS_PRODUCTION ? productionLogger : developmentLogger;
