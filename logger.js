@@ -1,6 +1,6 @@
 const os = require('os');
 const winston = require('winston');
-require('winston-syslog').Syslog;
+const { PapertrailTransport } = require('winston-papertrail-transport');
 
 const IS_PRODUCTION = process.env.NODE_ENV === 'production';
 const PAPERTRAIL_HOST = process.env.PAPERTRAIL_HOST;
@@ -38,13 +38,11 @@ const productionTransports = [
 ];
 
 if (PAPERTRAIL_HOST && PAPERTRAIL_PORT) {
-  productionTransports.push(new winston.transports.Syslog({
+  productionTransports.push(new PapertrailTransport({
     host: PAPERTRAIL_HOST,
     port: PAPERTRAIL_PORT,
-    protocol: 'tls4',
-    localhost: os.hostname(),
-    app_name: 'aspca-spots',
-    eol: '\n',
+    hostname: os.hostname(),
+    program: 'aspca-spots',
   }));
 }
 
